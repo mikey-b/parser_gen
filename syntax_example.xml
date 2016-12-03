@@ -1,0 +1,47 @@
+<!-- Example of C Hello world Parsing -->
+<syntax>
+	<lex name="sign">\(|\)|\n|#</lex>
+	<lex name="identifier">[a-zA-Z][a-zA-Z0-9_]</lex>
+	<lex name="whitespace"> \t\v\f</lex>
+	<lex name="filetag">&lt;[^&gt;]*&gt;</lex>
+	<lex name="string">"[^"]*"</lex>
+
+	<statement name="tranlationunit">
+		<one-or-more>
+			<one-of index="declaration">
+				<match statement="include"/>
+				<match statement="functionDeclaration"/>
+			</one-of>
+		</one-or-more>
+	</statement>
+
+	<statement name="include">
+		<sign>#</sign>
+		<identifier>include</identifier>
+		<whitespace/>
+		<filetag index="file"/>
+		<sign>\n</sign>
+	</statement>
+
+	<statement name="functionDeclaration">
+		<identifer index="name"/>
+		<sign>(</sign>
+		<sign>)</sign>
+		<sign>{</sign>
+		<one-or-more>
+			<match statement="functionCall"/>
+		</one-or-more>
+		<sign>}</sign>
+		<sign>\n</sign>
+	</statement>
+
+	<statement name="functionCall">
+		<identifier index="function"/>
+		<sign>(</sign>
+		<one-of index="parameter">
+			<string/>
+		</one-of>
+		<sign>)</sign>
+		<sign>;</sign>
+	</statement>
+</syntax>
