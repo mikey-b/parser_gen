@@ -1,0 +1,2 @@
+#!/bin/bash
+xsltproc -o parser.js js-transform.xsl example_syntax.xml
